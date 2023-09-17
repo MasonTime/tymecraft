@@ -15,9 +15,6 @@ function love.load()
     globals.scale = 5
     globals.blocks = {}
 
-    table.insert(globals.blocks,newBlock("air",{x=0,y=0},{x=0,y=0}))
-    table.insert(globals.blocks,newBlock("wood",{x=0,y=2},{x=0,y=2}))
-
     function globals.getBlock(name)
         for i,v in pairs(globals.blocks) do
             if v.name == name then
@@ -25,6 +22,9 @@ function love.load()
             end
         end
     end
+
+    table.insert(globals.blocks,newBlock("air",{x=0,y=0},{x=0,y=0}))
+    table.insert(globals.blocks,newBlock("wood",{x=0,y=2},{x=1,y=2}))
 
     currentWorld = newWorld()
 
@@ -34,8 +34,6 @@ function love.load()
 end
 
 function love.update(dt)
-    print(player.position.z)
-
     player:update(dt)
 
     local w = love.graphics.getWidth()
@@ -48,6 +46,7 @@ end
 function love.draw()
     love.graphics.scale(globals.scale,globals.scale)
     love.graphics.clear()
+
     currentWorld:resetDrawStack()
 
     cam:attach()
@@ -74,7 +73,6 @@ function uiDraw()
 end
 
 function spr(sprCords,scrCords,sprDim,f,s,t)
-
     table.insert(currentWorld.drawStack[scrCords.z], {spriteCordinates=sprCords,screenCordinates=scrCords,spriteDimensions=sprDim,flip=f,shade=s,type=t,extra=extra})
 end
 
@@ -89,7 +87,7 @@ function drawSpr(t)
     local shade = t.shade or false
     
     if shade == true then
-        love.graphics.setColor(31/255,16/255,42/255,0.5)
+        love.graphics.setColor(31/255,16/255,42/255,1)
     end
 
     love.graphics.draw(globals.spritesheet,love.graphics.newQuad(sx*16,sy*16,sw*16,sh*16,globals.spritesheet:getDimensions()),x,y)
