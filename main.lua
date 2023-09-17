@@ -25,6 +25,9 @@ function love.load()
     
     newBlock("air",{x=0,y=0},{x=0,y=0})
     newBlock("wood",{x=0,y=2},{x=1,y=2})
+    newBlock("dirt",{x=2,y=2},{x=3,y=2})
+    newBlock("grass",{x=0,y=3},{x=1,y=3})
+    newBlock("stone",{x=2,y=3},{x=3,y=3})
 
     globals.currentWorld = newWorld()
 
@@ -32,7 +35,7 @@ function love.load()
 
     player:load()
 
-    world:changeBlock(0,0,0,"wood")
+    world:changeBlock(0,0,0,"stone")
 end
 
 function love.update(dt)
