@@ -42,7 +42,7 @@ function love.update(dt)
     local h = love.graphics.getHeight()
     local nw = w/globals.scale
     local nh = h/globals.scale
-    cam:lookAt(player.position.x + (w - nw)/2, (player.position.y-player.position.z*16) + (h - nh)/2) -- same for the y-axis
+    cam:lookAt(player.position.x + (w - nw)/2, (player.position.y) + (h - nh)/2) -- same for the y-axis
 end
 
 function love.draw()
@@ -56,13 +56,11 @@ function love.draw()
     player:draw()
 
     for l=0,#currentWorld.drawStack,1 do
-        for sl=0,1,1 do
-            table.sort(currentWorld.drawStack[l][sl], function(t1,t2)
-                return t1.screenCordinates.y < t2.screenCordinates.y
-            end)
-            for c=1,#currentWorld.drawStack[l][sl],1 do
-                drawSpr(currentWorld.drawStack[l][sl][c])
-            end
+        table.sort(currentWorld.drawStack[l], function(t1,t2)
+            return t1.screenCordinates.y < t2.screenCordinates.y
+        end)
+        for c=1,#currentWorld.drawStack[l],1 do
+            drawSpr(currentWorld.drawStack[l][c])
         end
     end
 
@@ -75,16 +73,16 @@ function uiDraw()
     love.graphics.rectangle("fill",love.graphics.getWidth()/globals.scale/2,love.graphics.getHeight()/globals.scale/2,1,1)
 end
 
-function spr(sprCords,scrCords,sprDim,f,s,t,sublayer,extra)
+function spr(sprCords,scrCords,sprDim,f,s,t)
 
-    table.insert(currentWorld.drawStack[scrCords.z][sublayer], {spriteCordinates=sprCords,screenCordinates=scrCords,spriteDimensions=sprDim,flip=f,shade=s,type=t,extra=extra})
+    table.insert(currentWorld.drawStack[scrCords.z], {spriteCordinates=sprCords,screenCordinates=scrCords,spriteDimensions=sprDim,flip=f,shade=s,type=t,extra=extra})
 end
 
 function drawSpr(t)
     local sx = t.spriteCordinates.x
     local sy = t.spriteCordinates.y
     local x = t.screenCordinates.x
-    local y = t.screenCordinates.y - (t.screenCordinates.z*16)
+    local y = t.screenCordinates.y
     local sw = t.spriteDimensions.w
     local sh = t.spriteDimensions.h
     local flip = t.flip or false
