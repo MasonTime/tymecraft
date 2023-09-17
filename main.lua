@@ -23,14 +23,16 @@ function love.load()
         end
     end
     
-    table.insert(globals.blocks,newBlock("air",{x=0,y=0},{x=0,y=0}))
-    table.insert(globals.blocks,newBlock("wood",{x=0,y=2},{x=1,y=2}))
+    newBlock("air",{x=0,y=0},{x=0,y=0})
+    newBlock("wood",{x=0,y=2},{x=1,y=2})
 
     globals.currentWorld = newWorld()
 
     love.window.setMode(love.graphics.getWidth()*globals.scale,love.graphics.getHeight()*globals.scale,{})
 
     player:load()
+
+    world:changeBlock(0,0,0,"wood")
 end
 
 function love.update(dt)

@@ -6,5 +6,5 @@ function newBlock(name, texTop, texFront)
     block.textureTop = texTop or {x=0,y=0}
     block.textureFront = texFront or {x=0,y=0}
 
-    return block
+    table.insert(globals.blocks, block)
 end
