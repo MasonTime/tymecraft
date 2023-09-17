@@ -14,21 +14,11 @@ function newWorld()
             world.blocks[z][y] = {};
             for x=0, world.width, 1 do
 
-                if true then
-                    if y%2 > 0 then
-                        world.blocks[z][y][x] = globals.getBlock("wood")
-                    else
-                        world.blocks[z][y][x] = globals.getBlock("air")
-                    end
-                else
-                    world.blocks[z][y][x] = globals.getBlock("wood")
-                end
+                world.blocks[z][y][x] = globals.getBlock("air")
 
             end
         end
     end
-
-    local n = 0
 
     function world:update (dt)
 
@@ -71,9 +61,8 @@ function newWorld()
 
     function world:changeBlock(x,y,z, blockName)
         local block = blockName
-        local position = world:getBlock(x,y,z)
 
-        position = globals.getBlock(block)
+        world.blocks[z][y][x] = globals.getBlock(block)
     end
 
     return world

@@ -22,11 +22,11 @@ function love.load()
             end
         end
     end
-
+    
     table.insert(globals.blocks,newBlock("air",{x=0,y=0},{x=0,y=0}))
     table.insert(globals.blocks,newBlock("wood",{x=0,y=2},{x=1,y=2}))
 
-    currentWorld = newWorld()
+    globals.currentWorld = newWorld()
 
     love.window.setMode(love.graphics.getWidth()*globals.scale,love.graphics.getHeight()*globals.scale,{})
 
@@ -47,19 +47,19 @@ function love.draw()
     love.graphics.scale(globals.scale,globals.scale)
     love.graphics.clear()
 
-    currentWorld:resetDrawStack()
+    globals.currentWorld.resetDrawStack()
 
     cam:attach()
 
     world:draw()
     player:draw()
 
-    for l=0,#currentWorld.drawStack,1 do
-        table.sort(currentWorld.drawStack[l], function(t1,t2)
+    for l=0,#globals.currentWorld.drawStack,1 do
+        table.sort(globals.currentWorld.drawStack[l], function(t1,t2)
             return t1.screenCordinates.y < t2.screenCordinates.y
         end)
-        for c=1,#currentWorld.drawStack[l],1 do
-            drawSpr(currentWorld.drawStack[l][c])
+        for c=1,#globals.currentWorld.drawStack[l],1 do
+            drawSpr(globals.currentWorld.drawStack[l][c])
         end
     end
 
@@ -73,7 +73,7 @@ function uiDraw()
 end
 
 function spr(sprCords,scrCords,sprDim,f,s,t)
-    table.insert(currentWorld.drawStack[scrCords.z], {spriteCordinates=sprCords,screenCordinates=scrCords,spriteDimensions=sprDim,flip=f,shade=s,type=t,extra=extra})
+    table.insert(globals.currentWorld.drawStack[scrCords.z], {spriteCordinates=sprCords,screenCordinates=scrCords,spriteDimensions=sprDim,flip=f,shade=s,type=t,extra=extra})
 end
 
 function drawSpr(t)
