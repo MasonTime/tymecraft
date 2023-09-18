@@ -14,6 +14,11 @@ function love.load()
     globals.spritesheet = love.graphics.newImage("/assets/imgs/pngs/spritesheet.png")
     globals.scale = 5
     globals.blocks = {}
+    globals.btn = {
+        up=false,down=false,left=false,right=false,
+        m1=false,m2=false,c=false,d=false,
+        start=false,select=false
+    }
 
     function globals.getBlock(name)
         for i,v in pairs(globals.blocks) do
@@ -35,10 +40,35 @@ function love.load()
 
     player:load()
 
-    world:changeBlock(0,0,0,"stone")
+    world:changeBlock(0,0,1,"stone")
 end
 
 function love.update(dt)
+
+    if love.keyboard.isDown( "w" ) then
+        globals.btn.up = true
+    else globals.btn.up = false end
+
+    if love.keyboard.isDown( "d" ) then
+        globals.btn.right = true
+    else globals.btn.right = false end
+
+    if love.keyboard.isDown( "s" ) then
+        globals.btn.down = true
+    else globals.btn.down = false end
+
+    if love.keyboard.isDown( "a" ) then
+        globals.btn.left = true
+    else globals.btn.left = false end
+
+    if love.mouse.isDown(1) then
+        globals.btn.m1 = true
+    else globals.btn.m1 = false end
+
+    if love.mouse.isDown(2) then
+        globals.btn.m2 = true
+    else globals.btn.m2 = false end
+
     player:update(dt)
 
     local w = love.graphics.getWidth()

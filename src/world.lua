@@ -1,8 +1,8 @@
 function newWorld()
     world = {}
 
-    world.width = 7
-    world.height = 7
+    world.width = 128
+    world.height = 128
     world.length = 1
     world.blocks = {}
     world.entities = {}
@@ -14,7 +14,13 @@ function newWorld()
             world.blocks[z][y] = {};
             for x=0, world.width, 1 do
 
-                world.blocks[z][y][x] = globals.getBlock("air")
+                if z == 0 then
+                    world.blocks[z][y][x] = globals.getBlock("grass")
+                end
+
+                if z == 1 then
+                    world.blocks[z][y][x] = globals.getBlock("air")
+                end
 
             end
         end
@@ -30,20 +36,23 @@ function newWorld()
                 for X=0, world.width, 1 do
                     local currentBlock = world:getBlock(X,Y,Z)
                     
-                    if Z == world.length or world:getBlock(X,Y,Z+1).name == "air"  then
-                        local texture = currentBlock.textureTop
+                    if math.sqrt((X - player.mapPosition.x)^2) < 20 and math.sqrt((Y - player.mapPosition.y)^2) < 20 then
+                        if currentBlock.name ~= "air" then
+                            if Z == world.length or world:getBlock(X,Y,Z+1).name == "air"  then
+                                local texture = currentBlock.textureTop
 
-                        if Y ~= world.height then
-                            if world:getBlock(X,Y+1,Z).name == "air" then
-                                texture = currentBlock.textureFront
+                                if Y ~= world.height then
+                                    if world:getBlock(X,Y+1,Z).name == "air" then
+                                        texture = currentBlock.textureFront
+                                    end
+                                else
+                                    texture = currentBlock.textureFront
+                                end
+                                
+                                spr(texture, {x=(X)*16,y=Y*16,z=Z}, {w=1,h=1}, false, false, "block") --front
                             end
-                        else
-                            texture = currentBlock.textureFront
                         end
-                        
-                        spr(texture, {x=(X)*16,y=Y*16,z=Z}, {w=1,h=1}, false, false, "block") --front
                     end
-
                 end
             end
         end
