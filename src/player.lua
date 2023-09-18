@@ -41,6 +41,10 @@ function player:update(dt)
         if globals.btn.m1 then
             globals.currentWorld:changeBlock(self.cursor.mapPosition.x,self.cursor.mapPosition.y,self.position.z,"air")
         end
+
+        if globals.btn.m2 then
+            globals.currentWorld:changeBlock(self.cursor.mapPosition.x,self.cursor.mapPosition.y,self.position.z,"wood")
+        end
     end
 
     print(self.cursor.position.x .. "," .. self.cursor.position.y)
